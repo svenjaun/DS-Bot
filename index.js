@@ -39,7 +39,7 @@ bot.login(token)
 
 
 expressApp.get('/', (req, res) => {
-    let final = lastUserCount > 9 ? 9 : lastUserCount;
+    let final = lastUserCount > 9 ? 10 : lastUserCount;
     res.send({ value: numbers[final] });
 });
 
