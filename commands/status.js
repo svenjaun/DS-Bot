@@ -60,7 +60,7 @@ function getUsername(bot, guildid, obj) {
     }
     bot.guilds.cache.get(guildid).roles.cache.tap((roles) => {
         roles.filter((something) => {
-            if (something.id === obj.replace("@", "").replace("<", "").replace(">", "").replace("&", "")) {
+            if (something.id === obj.replace("@", "").replace("<", "").replace(">", "").replace("&", "").replace("!", "")) {
                 username = `Role: ${something.name}`;
             }
         })
