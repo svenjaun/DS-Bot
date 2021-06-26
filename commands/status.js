@@ -42,7 +42,7 @@ module.exports.run = async(bot, message, args) => {
 function writeMessage(message, messageText) {
 
     message.channel.send(messageText).then((msg) => {
-        msg.delete({ timeout: 1000 });
+        msg.delete({ timeout: 20000 });
     });
 }
 
