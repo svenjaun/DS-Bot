@@ -1,10 +1,11 @@
 const fs = require('fs')
 const fse = require('fs-extra')
+const username = require(`../helper/username.js`)
 
 module.exports.run = async(bot, message, args) => {
-
+    let guildId = message.guild.id;
     message.delete()
-    await fse.readJson('./counter.json', 'utf8', function(err, json) {
+    fse.readJson('./counter.json', 'utf8', function(err, json) {
         counter = parseInt(json);
         let member = message.mentions.members.first();
         if (!member) {
@@ -20,6 +21,7 @@ module.exports.run = async(bot, message, args) => {
             let plannedDiff = 1000 * 60 * 5; // Five Minutes
             if (diffTime < plannedDiff) {
                 writeDeletingMessage(message, `${member} can be Niggerd again in ${parseInt( (plannedDiff -diffTime) / 1000)} seconds`)
+                updateUsernames(bot, guildId)
                 return;
             }
 
@@ -33,8 +35,29 @@ module.exports.run = async(bot, message, args) => {
         fse.writeJson("./counter.json", json, (err) => {
             if (err) console.log(err);
             writeDeletingMessage(message, `Nigger Counter for ${member} is: ${json[member].counter}`)
+            updateUsernames(bot, guildId)
         });
     })
+}
+
+
+function updateUsernames(bot, guildId) {
+    fse.readJson('./counter.json', 'utf8', function(err, json) {
+        let changes = false;
+        for (userId of Object.keys(json)) {
+            let name = username.getUsername(bot, guildId, userId);
+            if (name) {
+                json[userId].username = name;
+                changes = true;
+            }
+        }
+        if (changes) {
+            fse.writeJson("./counter.json", json, (err) => {
+                if (err) console.log(err);
+            });
+        }
+    })
+
 }
 
 function writeDeletingMessage(message, messageText) {
