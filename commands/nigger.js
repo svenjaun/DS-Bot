@@ -18,7 +18,7 @@ module.exports.run = async(bot, message, args) => {
         if (json[member]) {
             let oldDate = new Date(json[member].lastChanged);
             let diffTime = Math.abs(new Date() - oldDate); // ms 
-            let plannedDiff = 1000 * 60 * 5; // Five Minutes
+            let plannedDiff = 1000 * 20; // Five Minutes
             if (diffTime < plannedDiff) {
                 writeDeletingMessage(message, `${member} can be Niggerd again in ${parseInt( (plannedDiff -diffTime) / 1000)} seconds`)
                 updateUsernames(bot, guildId)
