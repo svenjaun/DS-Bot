@@ -33,6 +33,7 @@ function printAllStats(bot, message, json) {
         inline: false,
     }];
     let plannedDiff = 1000 * 60 * 5; // Five Minutes
+    let totalCount = 0;
     for (let obj in json) {
         let diffTime = Math.abs(new Date() - new Date(json[obj].lastChanged));
         let seconds = parseInt((plannedDiff - diffTime) / 1000)
@@ -42,15 +43,21 @@ function printAllStats(bot, message, json) {
             seconds += " seconds"
         }
         let name = json[obj].username;
-        if (!name) {
-            name = "ĐUCK SQUAĐ";
+        if (name != "ĐUCK SQUAĐ") {
+            fields.push({
+                name: name,
+                value: `Counter: ${json[obj].counter} \n Cooldown: \n${seconds}`,
+                inline: true,
+            })
+            totalCount += json[obj].counter;
         }
-        fields.push({
-            name: name,
-            value: `Counter: ${json[obj].counter} \n Cooldown: \n${seconds}`,
-            inline: true,
-        })
     }
+
+    fields.push({
+        name: "ĐUCK SQUAĐ",
+        value: `Counter: ${totalCount}`
+    })
+
     const exampleEmbed = new Discord.MessageEmbed()
         .setColor('#000')
         .setTitle('Nigger counter stats')
