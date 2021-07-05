@@ -71,9 +71,7 @@ function printAllStats(bot, message, json) {
 
 
 function writeMessage(message, messageText) {
-    message.channel.send(messageText).then((msg) => {
-        msg.delete({ timeout: 10000 });
-    });
+    message.channel.send(messageText);
 }
 
 module.exports.config = {
